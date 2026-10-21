@@ -1,5 +1,14 @@
 # Tarefas
 
-| ID | Tarefa | Origem | Depende de | Concluída quando |
-|---|---|---|---|---|
-| T-01 | Criar projeto e estrutura de pastas | Constituição | | Projeto compila |
+| ID   | Tarefa                                                                  | Origem                                   | Depende de       | Concluída quando                                                                                                          |
+| ---- | ----------------------------------------------------------------------- | ---------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| T-01 | Criar a solução .NET e a estrutura de projetos/pastas                   | Constituição, D-05                       | —                | A solução compila                                                                                                         |
+| T-02 | Criar a entidade `StrongPassword` e configurar SQLite/EF Core           | RF-03, RF-08, D-01, D-02                 | T-01             | A migração é criada e aplicada ao banco                                                                                   |
+| T-03 | Implementar o serviço de geração de senha                               | RF-01, RF-02, RN-01, RN-02, RN-03, D-04  | T-01             | Testes unitários comprovam tamanho mínimo, caractere especial e ausência de espaços em branco                             |
+| T-04 | Implementar a persistência da senha e do GUID                           | RF-03, RN-04, RN-05, RN-09               | T-02             | Teste comprova que a senha é armazenada com um GUID único e pode ser recuperada                                           |
+| T-05 | Implementar o serviço de criação de senha                               | RF-01, RF-04, RN-05, RN-10               | T-03, T-04       | Teste unitário comprova que gera, persiste e retorna a senha e o GUID                                                     |
+| T-06 | Criar `POST /api/v1/passwords`                                          | RF-01, RF-04, D-07                       | T-05             | Teste de integração comprova resposta `201` com GUID e senha                                                              |
+| T-07 | Implementar o serviço de consulta por GUID                              | RF-05, RF-06, RF-07, RN-06, RN-07, RN-08 | T-04             | Testes comprovam retorno da senha associada e resultado de não encontrado                                                 |
+| T-08 | Criar `GET /api/v1/passwords/{guid}` e tratar GUID inválido/inexistente | RF-05, RF-06, RF-07, D-07                | T-07             | Testes de integração comprovam `200` para GUID existente, `400` para GUID malformado e `404` para GUID válido inexistente |
+| T-09 | Verificar persistência após reiniciar a aplicação                       | RF-08, RN-09                             | T-06, T-08       | Teste comprova que uma senha criada continua consultável após reinicialização ou novo contexto de banco                   |
+| T-10 | Executar a suíte de testes e validar a aplicação                        | Constituição, D-06                       | T-06, T-08, T-09 | Solução compila sem erros/avisos, testes passam e aplicação inicia sem erros                                              |
